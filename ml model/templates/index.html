@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rent Prediction Form</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Rent Prediction</h2>
+    <form onsubmit="get(event)" method="post">
+
+      <label>BHK:</label>
+      <input type="number" name="BHK" required><br>
+
+      <label>Size (sqft):</label>
+      <input type="number" name="Size" required><br>
+
+      <label>Bathrooms:</label>
+      <input type="number" name="Bathroom" required><br>
+
+      <label>Current Floor:</label>
+      <input type="number" step="0.1" name="Current_Floor" required><br>
+
+      <label>Total Floors:</label>
+      <input type="number" step="0.1" name="Total_Floors" required><br>
+
+      <label>Area Type:</label><br>
+      <input type="radio" name="Area_Type" value="Carpet Area"> Carpet Area<br>
+      <input type="radio" name="Area_Type" value="Super Area" checked> Super Area<br><br>
+
+      <label>City:</label><br>
+      <input type="radio" name="City" value="Chennai"> Chennai<br>
+      <input type="radio" name="City" value="Delhi"> Delhi<br>
+      <input type="radio" name="City" value="Hyderabad"> Hyderabad<br>
+      <input type="radio" name="City" value="Kolkata" checked> Kolkata<br>
+      <input type="radio" name="City" value="Mumbai"> Mumbai<br><br>
+
+      <label>Furnishing Status:</label><br>
+      <input type="radio" name="Furnishing_Status" value="Semi-Furnished" checked> Semi-Furnished<br>
+      <input type="radio" name="Furnishing_Status" value="Unfurnished"> Unfurnished<br><br>
+
+      <label>Tenant Preferred:</label><br>
+      <input type="radio" name="Tenant_Preferred" value="Bachelors/Family" checked> Bachelors/Family<br>
+      <input type="radio" name="Tenant_Preferred" value="Family"> Family<br><br>
+
+      <label>Point of Contact:</label><br>
+      <input type="radio" name="Point_of_Contact" value="Contact Builder"> Contact Builder<br>
+      <input type="radio" name="Point_of_Contact" value="Contact Owner" checked> Contact Owner<br><br>
+
+      <input type="submit" value="Predict Rent">
+    </form>
+    <h2 id="result"></h2>
+  </div>
+<script>
+  async function get(event)
+  {
+    event.preventDefault();
+    let form=document.querySelector("form");
+    let formdata=new FormData(form);
+    let res=await fetch('predict',{
+      method:"POST",
+      body:formdata,
+    });
+    let data=await res.text();
+    document.querySelector("#result").innerHTML=`Predicted Price :  ${data}`
+  }
+</script>
+</body>
+</html>
